@@ -1,0 +1,89 @@
+﻿<Page
+    x:Class="GridViewApp.MainPage"
+    IsTabStop="false"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GridViewApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    
+    <Page.Resources>
+        <CollectionViewSource
+            x:Name="_groupedViewSource"
+            Source="{Binding Groups}"
+            IsSourceGrouped="True" />
+    </Page.Resources>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition />
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <Grid
+            Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock
+                x:Uid="GridViewSampleApp" />
+                
+        </Grid>
+        
+        <SemanticZoom
+            x:Name="_semanticZoom"
+            Grid.Row="1">
+            <SemanticZoom.ZoomedOutView>
+                <GridView
+                    ItemTemplate="{StaticResource ZoomedOutItemTemplate}"
+                    Padding="116,0,40,46" />
+            </SemanticZoom.ZoomedOutView>
+                
+            <SemanticZoom.ZoomedInView>
+                <GridView 
+                    x:Name="patientListGridView"
+                    Grid.Row="1"
+                    ItemsSource="{Binding Source={StaticResource _groupedViewSource}}"
+                    ItemTemplate="{StaticResource ZoomedInItemTemplate}"
+                    Padding="116,0,40,46"
+                    SelectionMode="None">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <!-- This here is the magic:
+                                If we use a non-virtualizing panel (like StackPanel) then we only get a fixed amount of columns.
+                                If we use a virtualizing panel (like VirtualizingStackPanel) then we get all columns.
+                            -->
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.GroupStyle>
+                        <GroupStyle HidesIfEmpty="True">
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource SubheaderTextStyle}" Text="{Binding Identifier}" />
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <VariableSizedWrapGrid Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+        </SemanticZoom>
+            
+
+    </Grid>
+</Page>
