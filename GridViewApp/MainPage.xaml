@@ -63,7 +63,7 @@
                                 If we use a non-virtualizing panel (like StackPanel) then we only get a fixed amount of columns.
                                 If we use a virtualizing panel (like VirtualizingStackPanel) then we get all columns.
                             -->
-                            <StackPanel />
+                            <StackPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.GroupStyle>
