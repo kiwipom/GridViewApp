@@ -1,4 +1,4 @@
-#GridView
+#The GridView
 
 The issue is in the presentation of data in the ZoomedIn view - check `MainPage.xaml` and look for the `ItemsPanelTemplate` in the ZoomedInView.
 
